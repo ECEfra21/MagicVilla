@@ -1,5 +1,7 @@
+using MagicVilla_API;
 using MagicVilla_API.Datos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,7 @@ builder.Services.AddDbContext<AplicationDBContext>(opt =>
         opt.UseSqlServer(builder.Configuration.GetConnectionString("DBConnect"));
     }
 );
+builder.Services.AddAutoMapper(typeof(MappingConfig));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

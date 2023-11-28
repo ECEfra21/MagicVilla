@@ -8,7 +8,7 @@ namespace MagicVilla_API.Modelos
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int Id { get; protected set; }
         [Required]
         public string Nombre { get; set; }
         [Required]
@@ -21,5 +21,6 @@ namespace MagicVilla_API.Modelos
         public string Amenidad { get; set; }
         public DateTime? FUM { get; set; }
         public DateTime FA { get; set; }
+        public void SetId(int id) => Id = id;
     }
 }

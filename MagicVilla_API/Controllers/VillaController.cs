@@ -1,4 +1,5 @@
-﻿using MagicVilla_API.Datos;
+﻿using AutoMapper;
+using MagicVilla_API.Datos;
 using MagicVilla_API.Modelos;
 using MagicVilla_API.Modelos.Dto;
 using Microsoft.AspNetCore.JsonPatch;
@@ -13,17 +14,20 @@ namespace MagicVilla_API.Controllers
     {
         public ILogger<VillaController> Logger;
         private readonly AplicationDBContext Contexto;
-        public VillaController(ILogger<VillaController> logger, AplicationDBContext contexto)
+        private readonly IMapper Mapper;
+        public VillaController(ILogger<VillaController> logger, AplicationDBContext contexto, IMapper mapper)
         {
             Logger = logger;
             Contexto = contexto;
+            Mapper = mapper;
         }
         [Route("/GetList")]
         [HttpGet]
-        public ActionResult<IEnumerable<Villa>> GetLista()
+        public async Task<ActionResult<IEnumerable<Villa>>> GetLista()
         {
             Logger.LogInformation("Obteniendo listado de villas");
-            return Ok(Contexto.Villas.ToList()); // new List<Villa> { new Villa() { Id = 1, Nombre = "yo" } }; 
+            IEnumerable<Villa> lista = Contexto.Villas.ToList();
+            return Ok(Mapper.Map<IEnumerable<Villa>>(lista)); // new List<Villa> { new Villa() { Id = 1, Nombre = "yo" } }; 
         }
         //[Route("/GetById")]
         [HttpGet("/GetById/{id:int}")]//("id:int", Name = "GetById")]
@@ -34,8 +38,7 @@ namespace MagicVilla_API.Controllers
         {
             if (id.Equals(0))
                 return BadRequest();
-            Villa res = Contexto.Villas.ToList().FirstOrDefault(x=> x.Id.Equals(id));//  VillaStore.VillaList.FirstOrDefault(x => x.Id.Equals(id));
-
+            Villa res = Contexto.Villas.ToList().FirstOrDefault(x => x.Id.Equals(id));//  VillaStore.VillaList.FirstOrDefault(x => x.Id.Equals(id));
             if (res is null)
                 return NotFound();
             else
@@ -46,27 +49,17 @@ namespace MagicVilla_API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<Villa> Add([FromBody] PVilla villa)
+        public async Task<ActionResult<Villa>> Add([FromBody] PVilla villa)
         {
             if (villa is null)
                 return BadRequest();
             if (villa.Id > 0)
                 return StatusCode(StatusCodes.Status500InternalServerError);
-            Villa newvilla = new Villa()
-            {
-                Nombre = villa.Nombre,
-                Detalle = villa.Detalle,
-                Tarifa = villa.Tarifa,
-                Ocupantes = villa.Ocupantes,
-                MetrosCuadrados = villa.MetrosCuadrados,
-                Amenidad = villa.Amenidad,
-                ImageUrl = villa.ImageUrl,
-                FA = DateTime.Now
-            };
-
-            Contexto.Villas.Add(newvilla);
-            Contexto.SaveChanges();
-            newvilla.Id = Contexto.Villas.ToList().OrderByDescending(x => x.Id).FirstOrDefault().Id;
+            Villa newvilla = Mapper.Map<Villa>(villa);
+            newvilla.FA = DateTime.Now;
+            Contexto.Villas.AddAsync(newvilla);
+            await Contexto.SaveChangesAsync();
+            newvilla.SetId(Contexto.Villas.ToList().OrderByDescending(x => x.Id).FirstOrDefault().Id);
             return Ok(newvilla);
         }
         [Route("/Delete/{id:int}")]
@@ -74,7 +67,7 @@ namespace MagicVilla_API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Villa> Delete(int id)
+        public async Task<ActionResult<Villa>> Delete(int id)
         {
             Villa res = Contexto.Villas.FirstOrDefault(x => x.Id.Equals(id));
             if (id.Equals(0) || res is null)
@@ -88,20 +81,16 @@ namespace MagicVilla_API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Villa> Edit([FromBody] PVilla villa)
+        public async Task<ActionResult<Villa>> Edit([FromBody] PVilla villa)
         {
             Villa res = Contexto.Villas.FirstOrDefault(x => x.Id.Equals(villa.Id));
             if ( res is null || res.Id.Equals(0))
                 return NotFound();
-            res.Nombre = villa.Nombre;
-            res.Detalle = villa.Detalle;
-            res.Tarifa = villa.Tarifa;
-            res.Ocupantes = villa.Ocupantes;
-            res.MetrosCuadrados = villa.MetrosCuadrados;
-            res.ImageUrl = villa.ImageUrl;
+            Villa result = Mapper.Map<Villa>(villa);
             res.FUM = DateTime.Now;
+            res.SetId(villa.Id);
             Contexto.Villas.Update(res);
-            Contexto.SaveChanges();
+            Contexto.SaveChangesAsync();
             return NoContent();
         }
         /*[Route("/Edit/{field}")]
