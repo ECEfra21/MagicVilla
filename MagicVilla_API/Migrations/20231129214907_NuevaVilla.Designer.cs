@@ -4,6 +4,7 @@ using MagicVilla_API.Datos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MagicVillaAPI.Migrations
 {
     [DbContext(typeof(AplicationDBContext))]
-    partial class AplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20231129214907_NuevaVilla")]
+    partial class NuevaVilla
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +47,7 @@ namespace MagicVillaAPI.Migrations
 
                     b.HasIndex("VillaId");
 
-                    b.ToTable("NumeroVilla");
+                    b.ToTable("NuemroVilla");
                 });
 
             modelBuilder.Entity("MagicVilla_API.Modelos.Villa", b =>
@@ -96,7 +99,7 @@ namespace MagicVillaAPI.Migrations
                             Id = 1,
                             Amenidad = "ameno",
                             Detalle = "Ningun lugar",
-                            FA = new DateTime(2023, 11, 29, 15, 51, 48, 580, DateTimeKind.Local).AddTicks(5168),
+                            FA = new DateTime(2023, 11, 29, 15, 49, 7, 528, DateTimeKind.Local).AddTicks(4069),
                             ImageUrl = "",
                             MetrosCuadrados = 1000,
                             Nombre = "En ningun Lugar",
@@ -108,7 +111,7 @@ namespace MagicVillaAPI.Migrations
                             Id = 2,
                             Amenidad = "ameno",
                             Detalle = "Ningun lugar",
-                            FA = new DateTime(2023, 11, 29, 15, 51, 48, 580, DateTimeKind.Local).AddTicks(5184),
+                            FA = new DateTime(2023, 11, 29, 15, 49, 7, 528, DateTimeKind.Local).AddTicks(4086),
                             ImageUrl = "",
                             MetrosCuadrados = 1000,
                             Nombre = "En ningun Lugar",

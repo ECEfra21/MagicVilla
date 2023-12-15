@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "QBKWTMgA0g/TQTbQKpWuCuMQy9LsmJGXfhKSSp8ztlCV1XLLN/YtpMf43JyYGRoZ3QuAyziNqfuRqfJ95ZkR0w==",
+  "dgSpecHash": "lxDPRIPAIYMUoeL3MqiD4kTStEfOHDQdgq0ROicF79shGouQlKiimEpvpX8kSaqAwgvG8c17kYNAkTEe0fbsmw==",
   "success": true,
   "projectFilePath": "C:\\Desarrollo\\Net\\MagicVilla\\MagicVilla_API\\MagicVilla_API.csproj",
   "expectedPackageFiles": [
@@ -57,6 +57,7 @@
     "C:\\Users\\ecefr\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512",
     "C:\\Users\\ecefr\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\ecefr\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
+    "C:\\Users\\ecefr\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",
     "C:\\Users\\ecefr\\.nuget\\packages\\system.configuration.configurationmanager\\5.0.0\\system.configuration.configurationmanager.5.0.0.nupkg.sha512",
     "C:\\Users\\ecefr\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.0\\system.diagnostics.diagnosticsource.5.0.0.nupkg.sha512",
     "C:\\Users\\ecefr\\.nuget\\packages\\system.drawing.common\\5.0.0\\system.drawing.common.5.0.0.nupkg.sha512",

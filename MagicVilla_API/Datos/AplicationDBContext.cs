@@ -6,10 +6,11 @@ namespace MagicVilla_API.Datos
     public class AplicationDBContext : DbContext
     {
         public DbSet<Villa> Villas { get; set; }
-        public AplicationDBContext(DbContextOptions<AplicationDBContext> options): base(options)
+        public DbSet<NumeroVilla> NumeroVilla{ get; set; }
+        public AplicationDBContext(DbContextOptions<AplicationDBContext> options) : base(options)
         {
         }
-        /*
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Villa>().HasData(
@@ -40,6 +41,6 @@ namespace MagicVilla_API.Datos
                 FA = DateTime.Now
             });
         }
-        */
+
     }
 }
